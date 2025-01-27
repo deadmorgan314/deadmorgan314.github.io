@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Body Generator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=PT+Serif:wght@400;700&display=swap');
+
+        body {
+            font-family: 'PT Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #4d4d4d;
+            color: #333;
+        }
+
+        header {
+            background-color: #4d4d4d;
+            color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0);
+            padding: 10px 0;
+            top: 0; /* Устанавливает его на верхнюю часть страницы */
+            z-index: 1000; /* Делает меню поверх остального контента */
+
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #f2f2f2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            color: #5b5656;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #e6e6e6;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-family: 'PT Serif', serif;
+            color: #5b5656;
+        }
+
+        h2 {
+            font-family: 'PT Serif', serif;
+            color: #333;
+        }
+
+        .calculator {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .calculator input {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .calculator button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4d4d4d;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .calculator button:hover {
+            background-color: #666;
+        }
+
+        .result {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        footer {
+            background-color: #4d4d4d;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+        }
+
+        .key-value-output {
+    text-align: left;
+    margin-top: 1rem;
+    white-space: pre-wrap; /* Сохраняет пробелы и переносы строк */
+    word-wrap: break-word; /* Разрывает длинные слова на переносы */
+    background: #f4f4f4; /* Светлый фон для контраста */
+    padding: 1rem;
+    border-radius: 5px;
+    max-height: 300px; /* Ограничиваем высоту */
+    overflow-y: auto; /* Добавляем прокрутку, если текста много */
+    font-family: 'Courier New', Courier, monospace; /* Шрифт как у кода */
+    font-size: 14px; /* Размер шрифта для удобочитаемости */
+    color: #333; /* Цвет текста */
+    border: 1px solid #ccc; /* Легкая рамка вокруг блока */
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>JSON Body Generator</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html#">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#Calculator">Calc</a></li>    
+            <li><a href="index.html#encryption-type">Encrypt</a></li>
+            <li><a href="index.html#base64">Base64</a></li>
+            <li><a href="index.html#jwt">JWT</a></li>
+            <li><a href="index.html#binary">Binary</a></li>
+            <li><a href="index.html#hex">Hex</a></li>
+            <li><a href="index.html#uuid">UUID</a></li>
+            <li><a href="index.htm#passwordGenerator">Passwd</a></li>
+            <li><a href="index.html#sequenceForm">Sequence</a></li>
+            <li><a href="index.html#content">QR&Bar</a></li>
+            <li><a href="json.html">JSON</a></li>
+        </ul>
+    </nav>
+    <main>
+    <section>
+        <p>Представляет собой генератор JSON-структур. Позволяет пользователю вводить ключи, значения и типы данных для создания JSON-объектов. 
+            Пользователь может добавить несколько пар "ключ-значение", указав тип данных (строка, число, булево, null, массив или объект). 
+            Каждая пара отображается в списке, и для каждой пары доступны функции удаления или перемещения вверх/вниз. 
+            После того, как все пары добавлены, пользователь может сгенерировать окончательный JSON-объект, который будет отображен в формате JSON.</p>
+        <h2 class="section-title">Введите ключи, значения и типы</h2>
+        <div>
+            <input type="text" id="keyInput" placeholder="Введите ключ" />
+            <input type="text" id="valueInput" placeholder="Введите значение" />
+            <select id="typeSelect">
+                <option value="string">Строка</option>
+                <option value="number">Число</option>
+                <option value="boolean">Булево</option>
+                <option value="null">Null</option>
+                <option value="array">Массив</option>
+                <option value="object">Объект</option>
+            </select><br><br>
+            <button onclick="addKeyValuePair()">Добавить пару</button>
+        </div>
+
+        <h3 class="section-subtitle">Добавленные пары:</h3>
+        <div class="key-value-list" id="keyValueList">Нет добавленных пар.</div><br>
+
+        <button onclick="clearKeyValuePairs()">Очистить список пар</button>
+
+        <h3 class="section-subtitle">Сгенерированный JSON:</h3>
+        <div class="key-value-output" id="jsonOutput">{} </div><br>
+        
+        <button onclick="generateJSON()">Сгенерировать JSON</button>
+        <p>
+
+
+<h3>Основные особенности:</h3>
+<p><li>Ввод ключей и значений: Пользователь может ввести ключи и значения, а также выбрать их тип (строка, число, булево, null, массив, объект).</li></p>
+<p><li>Добавление/удаление пар: Возможность добавлять пары, а также удалять или перемещать их по порядку.</li></p>
+<p><li>Генерация JSON: Сгенерированный JSON-объект отображается в удобном формате для дальнейшего использования.</li></p>
+
+<h3>Как использовать:</h3>
+<p>1. Введите ключ и значение, выберите тип данных.</p>
+<p>2. Нажмите на кнопку "Добавить пару", чтобы добавить эту пару в список.</p>
+<p>3. Для каждого элемента списка можно удалить его или изменить его местоположение.</p>
+<p>4. После того, как все пары добавлены, нажмите "Сгенерировать JSON", чтобы увидеть итоговый результат.</p>
+Это приложение подходит для быстрого создания структур JSON, особенно для разработчиков и тестировщиков.
+        </p>
+
+    </section>
+</main>
+    <footer>
+        <p>&copy; 2025 JSON Body Generator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let keyValuePairs = [];
+
+        function addKeyValuePair() {
+            const key = document.getElementById('keyInput').value;
+            const value = document.getElementById('valueInput').value;
+            const type = document.getElementById('typeSelect').value;
+
+            if (key && value !== "") {
+                let typedValue;
+                if (type === 'number') {
+                    typedValue = isNaN(value) ? NaN : Number(value);
+                } else if (type === 'boolean') {
+                    typedValue = value.toLowerCase() === 'true';
+                } else if (type === 'null') {
+                    typedValue = null;
+                } else if (type === 'array') {
+                    try {
+                        typedValue = JSON.parse(value);
+                        if (!Array.isArray(typedValue)) {
+                            throw new Error('Not an array');
+                        }
+                    } catch (e) {
+                        alert('Неверный формат массива. Используйте формат: [1, 2, 3]');
+                        return;
+                    }
+                } else if (type === 'object') {
+                    try {
+                        typedValue = JSON.parse(value);
+                        if (typeof typedValue !== 'object' || Array.isArray(typedValue)) {
+                            throw new Error('Not an object');
+                        }
+                    } catch (e) {
+                        alert('Неверный формат объекта. Используйте формат: {"key": "value"}');
+                        return;
+                    }
+                } else {
+                    typedValue = value;
+                }
+
+                keyValuePairs.push({ key, value: typedValue, type });
+                document.getElementById('keyInput').value = '';
+                document.getElementById('valueInput').value = '';
+                displayKeyValuePairs();
+            } else {
+                alert('Пожалуйста, введите и ключ, и значение.');
+            }
+        }
+
+        function displayKeyValuePairs() {
+            const list = document.getElementById('keyValueList');
+            list.innerHTML = '';
+            keyValuePairs.forEach((pair, index) => {
+                const pairDiv = document.createElement('div');
+                pairDiv.classList.add('key-value-item');
+                
+                pairDiv.innerHTML = `
+                    <span>${pair.key}: ${JSON.stringify(pair.value)} (Тип: ${pair.type})</span>
+                    <div>
+                        <button onclick="removeKeyValuePair(${index})">Удалить</button>
+                        <button onclick="movePairUp(${index})">↑</button>
+                        <button onclick="movePairDown(${index})">↓</button>
+                    </div>
+                `;
+                
+                list.appendChild(pairDiv);
+            });
+        }
+
+        function removeKeyValuePair(index) {
+            keyValuePairs.splice(index, 1);
+            displayKeyValuePairs();
+        }
+
+        function movePairUp(index) {
+            if (index > 0) {
+                const temp = keyValuePairs[index];
+                keyValuePairs[index] = keyValuePairs[index - 1];
+                keyValuePairs[index - 1] = temp;
+                displayKeyValuePairs();
+            }
+        }
+
+        function movePairDown(index) {
+            if (index < keyValuePairs.length - 1) {
+                const temp = keyValuePairs[index];
+                keyValuePairs[index] = keyValuePairs[index + 1];
+                keyValuePairs[index + 1] = temp;
+                displayKeyValuePairs();
+            }
+        }
+
+        function clearKeyValuePairs() {
+            keyValuePairs = [];
+            displayKeyValuePairs();
+        }
+
+        function generateJSON() {
+            const jsonObject = {};
+            keyValuePairs.forEach(pair => {
+                jsonObject[pair.key] = pair.value;
+            });
+
+            const jsonString = JSON.stringify(jsonObject, null, 2);
+            document.getElementById('jsonOutput').textContent = jsonString;
+        }
+
+
+//End
+    </script>
+    <div class="snowdrift"></div>
+    <div class="snowdrift"></div>
+<canvas id="snowflakes"></canvas>
+</body>
+</html>
