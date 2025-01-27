@@ -1,1 +1,591 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tester Helper</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=PT+Serif:wght@400;700&display=swap');
+
+        body {
+            font-family: 'PT Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #4d4d4d;
+            color: #333;
+           
+        }
+
+        header {
+            background-color: #4d4d4d;
+            color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0);
+            padding: 10px 0;
+            top: 0; /* Устанавливает его на верхнюю часть страницы */
+            z-index: 1000; /* Делает меню поверх остального контента */
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #f2f2f2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            color: #5b5656;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #e6e6e6;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-family: 'PT Serif', serif;
+            color: #5b5656;
+        }
+
+        h2 {
+            font-family: 'PT Serif', serif;
+            color: #333;
+        }
+
+        .calculator {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .calculator input {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .calculator button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4d4d4d;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .calculator button:hover {
+            background-color: #666;
+        }
+
+        .result {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        footer {
+            background-color: #4d4d4d;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+        }
+
+        #snow-container {
+    position: fixed; /* Чтобы контейнер оставался на месте при прокрутке */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Чтобы контейнер не мешал кликам по сайту */
+    z-index: 9999; /* Убедитесь, что снежинки поверх всего */
+}
+
+.snowflake {
+    position: absolute;
+    top: -10px;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(45deg, #fff, #cce7ff);
+    clip-path: polygon(
+        50% 0%, 60% 20%, 80% 20%, 65% 35%, 70% 50%, 50% 40%,
+        30% 50%, 35% 35%, 20% 20%, 40% 20%, 50% 0%
+    );
+    opacity: 0.9;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    animation: fall 20s linear infinite;
+}
+
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10px);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Tester`s Helper</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#Calculator">Calc</a></li>    
+            <li><a href="#encryption-type">Encrypt</a></li>
+            <li><a href="#base64">Base64</a></li>
+            <li><a href="#jwt">JWT</a></li>
+            <li><a href="#binary">Binary</a></li>
+            <li><a href="#hex">Hex</a></li>
+            <li><a href="#uuid">UUID</a></li>
+            <li><a href="#passwordGenerator">Passwd</a></li>
+            <li><a href="#sequenceForm">Sequence</a></li>
+            <li><a href="#content">QR&Bar</a></li>
+            <li><a href="json.html">JSON</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="about">
+          <h2 class="section-title">Welcome to Tester`s Helper!</h2>
+          Этот сайт предоставляет полезные инструменты для тестировщиков, разработчиков и обычных пользователей. 
+          Здесь вы найдете генераторы, шифровщики и утилиты для упрощения повседневных задач.
+      </section>
+      <section>
+        <section id="Calculator">
+          <h2 class="section-title">Online calculate</h2>
+          <p>
+            Позволяет вычислять математические выражения прямо в браузере. Удобен для быстрого тестирования формул или 
+            проверки арифметических расчетов.
+        </p>
+          <textarea id="expression" placeholder="Enter any math expression"></textarea><br><br>
+          <button onclick="calculate()">Calculate</button><br><br>
+          <textarea id="result" placeholder="Result"></textarea>
+    </section>
+
+    <section class="generator-section">
+        <h2>Encrypt Text</h2>
+        <p>
+            Используется для преобразования текста с использованием различных алгоритмов шифрования, таких как AES, SHA и другие. 
+            Это помогает защитить данные или преобразовать их в зашифрованный формат для передачи.
+        </p>
+        <label for="encryption-type">Select Encryption Type:</label>
+        <select id="encryption-type">
+            <option value="rot13">ROT13</option>
+            <option value="aes">AES</option>
+            <option value="blowfish">Blowfish</option>
+            <option value="des">DES</option>
+            <option value="sha1">SHA-1</option>
+            <option value="sha256">SHA-256</option>
+            <option value="sha512">SHA-512</option>
+        </select>
+
+        <br><br>  
+        <textarea id="text-to-encrypt" placeholder="Enter text to encrypt..."></textarea><br><br>
+        <button onclick="encryptText()">Encrypt</button><br><br>
+        <textarea id="encryption-output" placeholder="Result"></textarea>
+
+        
+    </section>
+      <section id="base64">
+          <h2 class="section-title">Base64 Code/Decode</h2>
+          <p>Base64 — это метод кодирования данных, который используется для передачи бинарных 
+            данных через текстовые протоколы. Например, вы можете закодировать изображение или файл в текстовую строку, 
+            чтобы переслать его через HTTP или JSON. Секция позволяет закодировать текст в Base64 и декодировать обратно в исходный формат.</p>
+          <textarea id="inputText" placeholder="Input text"></textarea><br><br>
+          <button onclick="encodeBase64()">Code</button>
+          <button onclick="decodeBase64()">Decode</button><br><br>
+          <textarea id="outputText" placeholder="Result"></textarea>
+      </section>
+      <section id="jwt">
+        <h2 class="section-title">JWT Code/Decode</h2>
+        <p>
+            JWT (JSON Web Token) — это стандарт для передачи данных между двумя сторонами с использованием токенов. 
+            Токен содержит три части: заголовок (header), полезную нагрузку (payload) и подпись (signature). Этот инструмент позволяет создать JWT токен, а также декодировать существующий.
+        </p>
+        <textarea id="jwtHeader" placeholder="Input Header (JSON)"></textarea><br>
+        <textarea id="jwtPayload" placeholder="Input Payload (JSON)"></textarea><br>
+        <textarea id="jwtSignature" placeholder="Input Signature (optional)"></textarea><br><br>
+        <button onclick="encodeJWT()">Generate</button><br><br>
+        <textarea id="jwtInput" placeholder="Input JWT"></textarea><br><br>
+        <button onclick="decodeJWT()">Decode</button><br><br>
+        <textarea id="jwtOutput" placeholder="Result"></textarea>
+    </section>
+      <section id="binary">
+          <h2 class="section-title">Binary Code/Decode</h2>
+          <p>Бинарный код — это основа представления данных в компьютере. В этой секции вы можете преобразовать текст в бинарный формат и обратно, чтобы понять, как текст выглядит на уровне битов.
+
+          </p>
+          <textarea id="binaryInput" placeholder="Input text"></textarea><br><br>
+          <button onclick="encodeBinary()">Code to bin</button>
+          <button onclick="decodeBinary()">Decode from bin</button><br><br>
+          <textarea id="binaryOutput" placeholder="Result"></textarea>
+      </section>
+      <section id="hex">
+          <h2 class="section-title">Hex Code/Decode</h2>
+          <p>Шестнадцатеричный код используется для представления данных в удобной форме. Например, цвета в веб-дизайне или представление байтов в отладке. Секция позволяет преобразовывать текст в Hex и обратно.</p>
+          <textarea id="hexInput" placeholder="Input text"></textarea><br><br>
+          <button onclick="encodeHex()">Code to Hex</button>
+          <button onclick="decodeHex()">Decode from Hex</button><br><br>
+          <textarea id="hexOutput" placeholder="Result"></textarea>
+      </section>
+      <section id="uuid">
+          <h2 class="section-title">UUID Generator</h2>
+          <p>UUID (Universal Unique Identifier) — это стандарт для создания уникальных идентификаторов. UUID используется в базах данных, распределенных системах и других приложениях. Секция генерирует случайный UUID.</p>
+          <textarea id="uuidOutput" placeholder="UUID"></textarea><br><br>
+          <button onclick="generateUUID()">Generate UUID</button>
+
+      </section>
+    <section id="passwordGenerator">
+          <h2 class="section-title">Password Generator</h2>
+          <p>Этот инструмент помогает создавать безопасные пароли. Вы можете задать длину пароля.</p>
+          <label for="passwordLength">Length:</label>
+          <input type="number" id="passwordLength" value="12" min="8" max="20">
+          <br><br>
+          <textarea id="passwordOutput" placeholder="Пароль" readonly></textarea><br><br>
+          <button onclick="generatePassword()">Generate</button>
+
+    </section>  
+    <div class="container">
+      <h2>Sequence Generator</h2>
+      <p>Создает случайные последовательности символов, которые могут содержать цифры, буквы и специальные символы. Полезно для тестирования или генерации случайных данных.</p>
+      <form id="sequenceForm">
+          <label for="length">Length of Sequence:</label><br>
+          <input type="number" id="length" name="length" min="1" value="10" required><br><br>
+
+          <label>Include:</label><br>
+          <input type="checkbox" id="numbers" name="characters" value="numbers" checked>
+          <label for="numbers">Numbers</label><br>
+
+          <input type="checkbox" id="letters" name="characters" value="letters" checked>
+          <label for="letters">Letters</label><br>
+
+          <input type="checkbox" id="specials" name="characters" value="specials">
+          <label for="specials">Special Symbols</label><br><br>
+
+          <button type="button" onclick="generateSequence()">Generate</button>
+          <button type="button" onclick="copyToClipboard()">Copy to Clipboard</button>
+      </form>
+
+      <div id="output" class="output">Your generated sequence will appear here.</div>
+  </div>
+
+  <section class="generator-section">
+    <h2>Generate QR or Barcode</h2>
+    <p>QR-коды и штрихкоды используются для хранения данных, которые можно быстро считать устройством. Вы можете сгенерировать QR-код или штрихкод на основе введенного текста</p>
+    <label for="type">Select Type:</label>
+    <select id="type">
+        <option value="qr">QR Code</option>
+        <option value="barcode">Barcode</option>
+    </select>
+
+    <label for="content">Enter Content:</label>
+    <input type="text" id="content" placeholder="Enter text to generate...">
+
+    <button onclick="generateCode()">Generate</button><br><br>
+
+    <div class="output_content" id="output_content"></div>
+</section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Tester`s Helper. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function calculate() {
+            const expression = document.getElementById('expression').value;
+            const resultDiv = document.getElementById('result');
+
+            try {
+                const result = eval(expression);
+                resultDiv.textContent = `Result: ${result}`;
+            } catch (error) {
+                resultDiv.textContent = 'Error: Invalid expression';
+            }
+        }
+        function encodeBase64() {
+            const input = document.getElementById('inputText').value;
+            const encoded = btoa(input);
+            document.getElementById('outputText').value = encoded;
+        }
+
+        function decodeBase64() {
+            const input = document.getElementById('inputText').value;
+            try {
+                const decoded = atob(input);
+                document.getElementById('outputText').value = decoded;
+            } catch (e) {
+                document.getElementById('outputText').value = 'Ошибка декодирования';
+            }
+        }
+
+        function encodeJWT() {
+            try {
+                const header = JSON.parse(document.getElementById('jwtHeader').value);
+                const payload = JSON.parse(document.getElementById('jwtPayload').value);
+                const signature = document.getElementById('jwtSignature').value;
+                const encodedHeader = btoa(JSON.stringify(header));
+                const encodedPayload = btoa(JSON.stringify(payload));
+                const token = signature 
+                    ? `${encodedHeader}.${encodedPayload}.${signature}` 
+                    : `${encodedHeader}.${encodedPayload}`;
+                document.getElementById('jwtInput').value = token;
+            } catch (e) {
+                alert('Ошибка при кодировании JWT. Убедитесь, что вы ввели корректный JSON.');
+            }
+        }
+
+        function decodeJWT() {
+            const input = document.getElementById('jwtInput').value;
+            try {
+                const parts = input.split('.');
+                if (parts.length !== 2 && parts.length !== 3) {
+                    throw new Error('Неверный формат JWT');
+                }
+                const header = JSON.parse(atob(parts[0]));
+                const payload = JSON.parse(atob(parts[1]));
+                const signature = parts[2] || 'Отсутствует';
+                document.getElementById('jwtOutput').value = `Header: ${JSON.stringify(header, null, 2)}\nPayload: ${JSON.stringify(payload, null, 2)}\nSignature: ${signature}`;
+            } catch (e) {
+                document.getElementById('jwtOutput').value = 'Ошибка декодирования JWT';
+            }
+        }
+
+        function encodeBinary() {
+            const input = document.getElementById('binaryInput').value;
+            const binary = input.split('').map(char => char.charCodeAt(0).toString(2).padStart(8, '0')).join(' ');
+            document.getElementById('binaryOutput').value = binary;
+        }
+
+        function decodeBinary() {
+            const input = document.getElementById('binaryInput').value;
+            try {
+                const text = input.split(' ').map(bin => String.fromCharCode(parseInt(bin, 2))).join('');
+                document.getElementById('binaryOutput').value = text;
+            } catch (e) {
+                document.getElementById('binaryOutput').value = 'Ошибка декодирования';
+            }
+        }
+
+        function encodeHex() {
+            const input = document.getElementById('hexInput').value;
+            const hex = input.split('').map(char => char.charCodeAt(0).toString(16).padStart(2, '0')).join(' ');
+            document.getElementById('hexOutput').value = hex;
+        }
+
+        function decodeHex() {
+            const input = document.getElementById('hexInput').value;
+            try {
+                const text = input.split(' ').map(hex => String.fromCharCode(parseInt(hex, 16))).join('');
+                document.getElementById('hexOutput').value = text;
+            } catch (e) {
+                document.getElementById('hexOutput').value = 'Ошибка декодирования';
+            }
+        }
+
+        function generateUUID() {
+            const uuid = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+            document.getElementById('uuidOutput').value = uuid;
+        }
+
+        function generatePassword() {
+        const length = document.getElementById('passwordLength').value || 12;
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-+=<>?';
+        let password = '';
+        
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * chars.length);
+            password += chars[randomIndex];
+        }
+        
+        document.getElementById('passwordOutput').value = password;
+        }    
+
+        function createSnowflake() {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        snowflake.style.left = Math.random() * window.innerWidth + 'px';
+        snowflake.style.width = snowflake.style.height = Math.random() * 10 + 5 + 'px';
+        snowflake.style.animationDuration = Math.random() * 15 + 5 + 's'; // 2-5 секунд
+        document.body.appendChild(snowflake);
+
+        setTimeout(() => snowflake.remove(), 5000);
+        }
+        setInterval(createSnowflake, 100);
+
+        function generateSequence() {
+            const length = parseInt(document.getElementById('length').value);
+            const includeNumbers = document.getElementById('numbers').checked;
+            const includeLetters = document.getElementById('letters').checked;
+            const includeSpecials = document.getElementById('specials').checked;
+
+            if (length > 100000) {
+    document.getElementById('output').textContent = "Length too large. Please enter a smaller value.";
+    return;
+}
+
+            if (!includeNumbers && !includeLetters && !includeSpecials) {
+                document.getElementById('output').textContent = "Please select at least one character type.";
+                return;
+            }
+
+            const numbers = "0123456789";
+            const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const specials = "!@#$%^&*()_+-=[]{}|;:',.<>?/`~";
+
+            let characterPool = "";
+            if (includeNumbers) characterPool += numbers;
+            if (includeLetters) characterPool += letters;
+            if (includeSpecials) characterPool += specials;
+
+            let result = "";
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * characterPool.length);
+                result += characterPool[randomIndex];
+            }
+
+            document.getElementById('output').textContent = result;
+        }
+
+        function copyToClipboard() {
+            const output = document.getElementById('output').textContent;
+            navigator.clipboard.writeText(output).then(() => {
+            alert("Copied to clipboard!");
+            });
+        }
+
+        function generateCode() {
+            const type = document.getElementById('type').value;
+            const content = document.getElementById('content').value;
+            const output = document.getElementById('output_content');
+
+            output.innerHTML = '';
+
+            if (!content) {
+                alert('Please enter content to generate.');
+                return;
+            }
+
+            if (type === 'qr') {
+                const qrCode = new QRCode(output, {
+                    text: content,
+                    width: 200,
+                    height: 200
+                });
+            } else if (type === 'barcode') {
+                const canvas = document.createElement('canvas');
+                JsBarcode(canvas, content, {
+                    format: "CODE128",
+                    lineColor: "#000",
+                    width: 2,
+                    height: 50,
+                    displayValue: true
+                });
+                output.appendChild(canvas);
+            }
+        }
+
+        function encryptText() {
+    const type = document.getElementById('encryption-type').value;
+    const text = document.getElementById('text-to-encrypt').value;
+    const output = document.getElementById('encryption-output');
+
+    output.innerHTML = '';
+
+    if (!text) {
+        alert('Please enter text to encrypt.');
+        return;
+    }
+
+    let encryptedText = '';
+
+    if (type === 'base64') {
+        encryptedText = btoa(text);
+    } else if (type === 'rot13') {
+        encryptedText = text.replace(/[a-zA-Z]/g, function (char) {
+            const base = char <= 'Z' ? 65 : 97;
+            return String.fromCharCode(base + (char.charCodeAt(0) - base + 13) % 26);
+        });
+    } else if (type === 'aes') {
+        const key = CryptoJS.enc.Utf8.parse('1234567890123456');
+        const encrypted = CryptoJS.AES.encrypt(text, key, { mode: CryptoJS.mode.ECB });
+        encryptedText = encrypted.toString();
+    } else if (type === 'gost') {
+        encryptedText = 'GOST encryption is not supported directly by CryptoJS.';
+    } else if (type === 'blowfish') {
+        const key = CryptoJS.enc.Utf8.parse('1234567890123456');
+        const encrypted = CryptoJS.Blowfish.encrypt(text, key);
+        encryptedText = encrypted.toString();
+    } else if (type === 'cast') {
+        encryptedText = 'CAST encryption is not supported directly by CryptoJS.';
+    } else if (type === 'des') {
+        const key = CryptoJS.enc.Utf8.parse('12345678');
+        const encrypted = CryptoJS.DES.encrypt(text, key, { mode: CryptoJS.mode.ECB });
+        encryptedText = encrypted.toString();
+    } else if (type === 'sha1') {
+        encryptedText = CryptoJS.SHA1(text).toString();
+    } else if (type === 'sha256') {
+        encryptedText = CryptoJS.SHA256(text).toString();
+    } else if (type === 'sha512') {
+        encryptedText = CryptoJS.SHA512(text).toString();
+    }
+
+    output.innerHTML = `${encryptedText}`;
+}
+
+    </script>
+</body>
+</html>
